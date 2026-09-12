@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bluetooth_serial_plus/flutter_bluetooth_serial_plus.dart';
+export 'package:flutter_bluetooth_serial_plus/flutter_bluetooth_serial_plus.dart';
 
 /// ข้อมูลสถานะที่รับจาก ESP32
 class CoasterStatus {
