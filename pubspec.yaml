@@ -1,0 +1,32 @@
+name: smart_coaster_app
+description: แอปควบคุมแผ่นรองแก้วอุ่นเครื่องดื่ม Smart Heating Coaster
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bluetooth_serial: ^0.4.0
+  permission_handler: ^11.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  fonts:
+    - family: Kanit
+      fonts:
+        - asset: fonts/Kanit-Regular.ttf
+        - asset: fonts/Kanit-Medium.ttf
+          weight: 500
+        - asset: fonts/Kanit-Bold.ttf
+          weight: 700
+        - asset: fonts/Kanit-Light.ttf
+          weight: 300
