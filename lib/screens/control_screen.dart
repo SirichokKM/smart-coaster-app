@@ -366,7 +366,7 @@ class _ControlScreenState extends State<ControlScreen>
 
   /// การ์ดคำนวณเวลานับถอยหลังโดยประมาณ
   Widget _buildEstimatedTimerCard() {
-    final estSeconds = widget.beverage.calculateEstimatedSeconds(_currentTemp, widget.size);
+    final estSeconds = widget.beverage.calculateEstimatedSeconds(_currentTemp, widget.cupSize);
     final isReady = _currentTemp >= _targetTemp && _targetTemp > 0;
     
     final minutes = estSeconds ~/ 60;
