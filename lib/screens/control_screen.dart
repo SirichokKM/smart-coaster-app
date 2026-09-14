@@ -86,9 +86,11 @@ class _ControlScreenState extends State<ControlScreen>
                     _buildModeInfo(),
                     const SizedBox(height: 30),
                     _buildTemperatureGauge(),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 25),
                     _buildStatusCard(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
+                    _buildEstimatedTimerCard(),
+                    const SizedBox(height: 16),
                     _buildInfoCards(),
                     const SizedBox(height: 30),
                     _buildStopButton(),
@@ -355,6 +357,74 @@ class _ControlScreenState extends State<ControlScreen>
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// การ์ดคำนวณเวลานับถอยหลังโดยประมาณ
+  Widget _buildEstimatedTimerCard() {
+    final estSeconds = widget.beverage.calculateEstimatedSeconds(_currentTemp, widget.size);
+    final isReady = _currentTemp >= _targetTemp && _targetTemp > 0;
+    
+    final minutes = estSeconds ~/ 60;
+    final seconds = estSeconds % 60;
+    final timeStr = '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: isReady
+            ? const Color(0xFF00C853).withOpacity(0.12)
+            : const Color(0xFF16213E),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isReady
+              ? const Color(0xFF00C853).withOpacity(0.5)
+              : const Color(0xFF2E3D5B),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: isReady
+                  ? const Color(0xFF00C853).withOpacity(0.2)
+                  : const Color(0xFFFF8F00).withOpacity(0.15),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              isReady ? Icons.check_circle_outline : Icons.timer_outlined,
+              color: isReady ? const Color(0xFF00C853) : const Color(0xFFFF8F00),
+              size: 24,
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  isReady ? 'สถานะเครื่องดื่ม' : 'เวลาประมาณการถึงเป้าหมาย',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  isReady ? 'พร้อมดื่มแล้ว (Ready to Drink)' : 'เหลือประมาณ $timeStr นาที',
+                  style: TextStyle(
+                    color: isReady ? const Color(0xFF00E676) : Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

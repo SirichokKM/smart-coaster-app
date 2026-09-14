@@ -67,34 +67,56 @@ class Beverage {
     ),
   ];
 
-  /// ตารางอุณหภูมิเป้าหมาย (°C)
+  /// ตารางอุณหภูมิเป้าหมาย (°C) (ลด 5°C เพื่อชดเชยค่าเซนเซอร์ข้างแก้ว)
   /// [DrinkType][CupSize] = temperature
   static const Map<DrinkType, Map<CupSize, double>> tempTable = {
     DrinkType.tea: {
-      CupSize.small: 65.0,
-      CupSize.medium: 68.0,
-      CupSize.large: 70.0,
-    },
-    DrinkType.coffee: {
       CupSize.small: 60.0,
       CupSize.medium: 63.0,
       CupSize.large: 65.0,
     },
+    DrinkType.coffee: {
+      CupSize.small: 55.0,
+      CupSize.medium: 58.0,
+      CupSize.large: 60.0,
+    },
     DrinkType.water: {
-      CupSize.small: 40.0,
-      CupSize.medium: 43.0,
-      CupSize.large: 45.0,
+      CupSize.small: 35.0,
+      CupSize.medium: 38.0,
+      CupSize.large: 40.0,
     },
     DrinkType.milk: {
-      CupSize.small: 50.0,
-      CupSize.medium: 53.0,
-      CupSize.large: 55.0,
+      CupSize.small: 45.0,
+      CupSize.medium: 48.0,
+      CupSize.large: 50.0,
     },
   };
 
   /// ดึงอุณหภูมิเป้าหมาย
   double getTargetTemp(CupSize size) {
     return tempTable[type]?[size] ?? 0;
+  }
+
+  /// คำนวณเวลาโดยประมาณ (วินาที) จากอุณหภูมิปัจจุบันไปยังเป้าหมาย
+  int calculateEstimatedSeconds(double currentTemp, CupSize size) {
+    final target = getTargetTemp(size);
+    final deltaT = target - currentTemp;
+    if (deltaT <= 0) return 0;
+
+    // อัตราเวลาเฉลี่ย (วินาทีต่อ 1°C) อิงจากการทดลองจริง
+    double secondsPerDegree;
+    switch (size) {
+      case CupSize.small:
+        secondsPerDegree = 120.0; // 2 นาทีต่อ 1°C
+        break;
+      case CupSize.medium:
+        secondsPerDegree = 150.0; // 2.5 นาทีต่อ 1°C
+        break;
+      case CupSize.large:
+        secondsPerDegree = 180.0; // 3 นาทีต่อ 1°C
+        break;
+    }
+    return (deltaT * secondsPerDegree).round();
   }
 
   /// สร้างคำสั่ง Bluetooth เช่น "TEA_S", "COFFEE_M"
