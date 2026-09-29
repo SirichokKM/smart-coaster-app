@@ -67,28 +67,28 @@ class Beverage {
     ),
   ];
 
-  /// ตารางอุณหภูมิเป้าหมาย (°C) (ลด 5°C เพื่อชดเชยค่าเซนเซอร์ข้างแก้ว)
+  /// ตารางอุณหภูมิเป้าหมาย (°C)
   /// [DrinkType][CupSize] = temperature
   static const Map<DrinkType, Map<CupSize, double>> tempTable = {
     DrinkType.tea: {
+      CupSize.small: 65.0,
+      CupSize.medium: 68.0,
+      CupSize.large: 70.0,
+    },
+    DrinkType.coffee: {
       CupSize.small: 60.0,
       CupSize.medium: 63.0,
       CupSize.large: 65.0,
     },
-    DrinkType.coffee: {
-      CupSize.small: 55.0,
-      CupSize.medium: 58.0,
-      CupSize.large: 60.0,
-    },
     DrinkType.water: {
-      CupSize.small: 35.0,
-      CupSize.medium: 38.0,
-      CupSize.large: 40.0,
+      CupSize.small: 40.0,
+      CupSize.medium: 43.0,
+      CupSize.large: 45.0,
     },
     DrinkType.milk: {
-      CupSize.small: 45.0,
-      CupSize.medium: 48.0,
-      CupSize.large: 50.0,
+      CupSize.small: 50.0,
+      CupSize.medium: 53.0,
+      CupSize.large: 55.0,
     },
   };
 
@@ -103,19 +103,8 @@ class Beverage {
     final deltaT = target - currentTemp;
     if (deltaT <= 0) return 0;
 
-    // อัตราเวลาเฉลี่ย (วินาทีต่อ 1°C) อิงจากการทดลองจริง
-    double secondsPerDegree;
-    switch (size) {
-      case CupSize.small:
-        secondsPerDegree = 120.0; // 2 นาทีต่อ 1°C
-        break;
-      case CupSize.medium:
-        secondsPerDegree = 150.0; // 2.5 นาทีต่อ 1°C
-        break;
-      case CupSize.large:
-        secondsPerDegree = 180.0; // 3 นาทีต่อ 1°C
-        break;
-    }
+    // อัตราเวลาเฉลี่ย (10 วินาทีต่อ 1°C ตามความเร็ว 0.1°C/วิ เพื่อให้นับถอยหลังตรงกับเวลาจริงในวิดีโอ)
+    double secondsPerDegree = 10.0;
     return (deltaT * secondsPerDegree).round();
   }
 
