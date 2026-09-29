@@ -103,8 +103,19 @@ class Beverage {
     final deltaT = target - currentTemp;
     if (deltaT <= 0) return 0;
 
-    // อัตราเวลาเฉลี่ย (10 วินาทีต่อ 1°C ตามความเร็ว 0.1°C/วิ เพื่อให้นับถอยหลังตรงกับเวลาจริงในวิดีโอ)
-    double secondsPerDegree = 10.0;
+    // อัตราเวลาเฉลี่ย (วินาทีต่อ 1°C) อิงจากการทดลองจริง
+    double secondsPerDegree;
+    switch (size) {
+      case CupSize.small:
+        secondsPerDegree = 120.0; // 2 นาทีต่อ 1°C
+        break;
+      case CupSize.medium:
+        secondsPerDegree = 150.0; // 2.5 นาทีต่อ 1°C
+        break;
+      case CupSize.large:
+        secondsPerDegree = 180.0; // 3 นาทีต่อ 1°C
+        break;
+    }
     return (deltaT * secondsPerDegree).round();
   }
 
